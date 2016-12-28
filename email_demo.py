@@ -4,9 +4,12 @@ import env
 
 
 
-#def gen_range( ):
+#return array of data points in excel sheet
+#requires a lower bound, upper bound, and an excel data sheet as inputs
 
+def gen_range(lower_bound, upper_bound,sheet):
 
+    return sheet.range(lower_bound +':'+ upper_bound).value
 
 
 def smtp_init(server):
@@ -33,7 +36,7 @@ def main():
 
     count = 0
     #iterate with customizable message
-    for email, amount in zip(datasheet.range('A1:A2').value, datasheet.range('B1:B2').value):
+    for email, amount in zip(gen_range('A1', 'A2', datasheet), gen_range('B1','B2', datasheet)):
     
         template_msg = str(amount) + " is how much you owe. Thank you!"   
         server.sendmail(env.email_username,str(email), template_msg)
