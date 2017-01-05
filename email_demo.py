@@ -36,7 +36,7 @@ def main():
 
     count = 0
     #iterate with customizable message
-    for email, amount in zip(gen_range('A1', 'A2', datasheet), gen_range('B1','B2', datasheet)):
+    for email, amount in zip(gen_range('A1', 'A3', datasheet), gen_range('B1','B3', datasheet)):
     
         template_msg = str(amount) + " is how much you owe. Thank you!"   
         server.sendmail(env.email_username,str(email), template_msg)
