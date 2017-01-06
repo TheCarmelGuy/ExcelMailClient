@@ -1,4 +1,4 @@
 run: 
-	python email_demo.py
+	python MailScript.py
 pyc-clean:
 	rm -r *.pyc
