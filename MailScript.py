@@ -1,7 +1,7 @@
 import smtplib
 import xlwings as xw
 import env
-import sysi, getopt
+import sys, getopt
 
 
 
@@ -14,7 +14,7 @@ emailBound = 'A3'
 
 #the character can be changed to set a particular column in the data set
 #NOTE This is for setting the column of the dues data
-duesBases = 'B1'  
+duesBase = 'B1'  
 duesBound = 'B3' 
 
 
@@ -23,7 +23,7 @@ duesBound = 'B3'
 
 def gen_range(lower_bound, upper_bound,sheet):
 
-    return sheet.range(lower_bound +':'+ upper_bound).value
+	return sheet.range(lower_bound +':'+ upper_bound).value
 
 
 def smtp_init(server):
@@ -46,37 +46,36 @@ def emailDispatcher(filename):
     #assume that here A column contins all the emails and B contain the info that is needed
     datasheet = wb.sheets['emails']
 
-	count = 0
+    count = 0
     #iterate with customizable message
-	for email, amount in zip(gen_range(emailBase, emailBound, datasheet), gen_range(duesBase,duesBound, datasheet)):
+    for email, amount in zip(gen_range(emailBase, emailBound, datasheet), gen_range(duesBase,duesBound, datasheet)):
 	
-		template_msg = str(amount) + " is how much you owe. Thank you!"   
-		server.sendmail(env.email_username,str(email), template_msg)
-		print("Payment request was sent to " + email + " for the amount of $" + str(amount)) 
+        template_msg = str(amount) + " is how much you owe. Thank you!"   
+        server.sendmail(env.email_username,str(email), template_msg)
+        print("Payment request was sent to " + email + " for the amount of $" + str(amount)) 
         
-    server.quit()
-    print str(count) + " emails have been proccessed"
+	server.quit()
+	print str(count) + " emails have been proccessed"
 	print("Check Log.txt for the information that has been sent out") 
 
 
-def main(argv):
+def main():
 	
-	try:
-		opts, args = getopt.getopt(sys.argv[1:], "hf", ["help", "file"])
+    try:
+        opts, args = getopt.getopt(sys.argv[1:], "hf", [])
     except getopt.GetoptError as err:
-       	# print help information and exit:
-		print str(err)  # will print something like "option -a not recognized"
-		sys.exit(2)
+        # print help information and exit:
+        print "Error: " +  str(err)  # will print something like "option -a not recognized"
+        sys.exit(2)
     	
-	filename = "emails.xlsx"
-	for o, a in opts:
+    filedata = "emails.xlsx"
+    for o, a in opts:
         if o == "-f":
-    		filename = a        
+            filedata = a           
         elif o in ("-h", "--help"):
-            usage()
             sys.exit()	
 		
-	emailDispatcher(filename)
+    emailDispatcher(filedata)
 
 
 
