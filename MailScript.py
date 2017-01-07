@@ -10,12 +10,12 @@ import sys, getopt
 #the character can be changed to set a particular column in the data set
 #NOTE This is for setting the column of the email account information
 emailBase = 'A1' 
-emailBound = 'A3' 
+emailBound = 'A2' 
 
 #the character can be changed to set a particular column in the data set
 #NOTE This is for setting the column of the dues data
 duesBase = 'B1'  
-duesBound = 'B3' 
+duesBound = 'B2' 
 
 
 #return array of data points in excel sheet
@@ -54,9 +54,9 @@ def emailDispatcher(filename):
         server.sendmail(env.email_username,str(email), template_msg)
         print("Payment request was sent to " + email + " for the amount of $" + str(amount)) 
         
-	server.quit()
-	print str(count) + " emails have been proccessed"
-	print("Check Log.txt for the information that has been sent out") 
+    server.quit()
+    print str(count) + " emails have been proccessed"
+    print("Check Log.txt for the information that has been sent out") 
 
 
 def main():
@@ -73,6 +73,10 @@ def main():
         if o == "-f":
             filedata = a           
         elif o in ("-h", "--help"):
+            print "DIRECTIONS"
+            print "========== \n"
+            print "1. Edit bound at top of source file"
+            print "2. Type python MailScript.py -f nameOfFile \n"
             sys.exit()	
 		
     emailDispatcher(filedata)
